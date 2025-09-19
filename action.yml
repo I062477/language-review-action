@@ -58,7 +58,7 @@ runs:
 
     - name: Apply Diff to EN #TODO take care of EN_US too
       if: ${{ steps.check-condition.outputs.exit_job != 'true' }}
-      run: node ".${{ github.action_path }}/action.js"
+      run: node "${{ github.action_path }}/action.js"
       shell: bash
       env:
         DIFF: ${{ steps.get-env.outputs.DIFF }}
