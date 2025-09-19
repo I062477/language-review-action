@@ -5,7 +5,10 @@ inputs:
   token:
     description: 'GitHub token'
     required: true
-
+  us:
+    description: 'including en_US files'
+    required: true
+    default: 'false'
 runs:
   using: "composite"
   steps:
@@ -56,13 +59,13 @@ runs:
         echo "Exiting job early because of no diff on i18n.properties files."
         exit 0
 
-    - name: Apply Diff to EN #TODO take care of EN_US too
+    - name: Apply Diff to EN
       if: ${{ steps.check-condition.outputs.exit_job != 'true' }}
       run: node "${{ github.action_path }}/action.js"
       shell: bash
       env:
         DIFF: ${{ steps.get-env.outputs.DIFF }}
-        ENUS: "true" #TODO service-cockpit-api true, service-eventlogs false
+        ENUS: ${{ inputs.us }}
 
     - name: Debug Git State
       if: ${{ steps.check-condition.outputs.exit_job != 'true' }}
